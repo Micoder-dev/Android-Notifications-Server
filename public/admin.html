@@ -84,8 +84,41 @@
 
             });
 
+
+            $("#btn-send").click(function(){
+
+                var to = $("#users").val();
+                var title = $("#title").val();
+                var body = $("#body").val(); 
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://fcm.googleapis.com/fcm/send', 
+                    headers:{
+                        Authorization: 'key=AIzaSyBJ8SsWOzJbfyrHRqOrDqeByjgYNZA_oDE'
+                    },
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        "registration_ids":to,
+                        "notification":{
+                            "title": title,
+                            "body": body
+                        }
+                    }),
+                    success: function(response){
+                        alert("Sent to "+response.success + " Devices");
+                    },
+                    error: function(error){
+                        alert("Some error occurred");
+                    }
+                });
+
+            });
+
+
         </script>
-        
+
         <script>
             firebase.auth().onAuthStateChanged(function(user){
                 if(!user){
